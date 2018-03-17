@@ -1,2 +1,5 @@
 # gitalias
-Git aliases to boost your productivity
+
+My git aliases.
+
+Useful git aliases to boost your productivity.
