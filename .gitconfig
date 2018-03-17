@@ -1,0 +1,86 @@
+
+[alias]
+  #current branch
+	me = !git rev-parse --abbrev-ref HEAD
+  
+	st = status
+	sta = !git status && git add . --all && git status && echo 'Staged all changes, if any.'
+	unsta = !git status && git reset HEAD && git status && echo 'Unstaged all changes, if any.'
+  
+	stachbst = !git status && git add . --all && echo 'Staged all changes, if any.' && git checkout -b $branchname && git status
+	# shorthand for stachbst. [trans]fer changes to new branch
+	trans = !git status && git add . --all && echo 'Staged all changes, if any.' && git checkout -b $branchname && git status
+  
+  #stage all then commit with message
+	acm = !git add . --all && echo 'Staged all changes, if any.' && git commit -m $message
+  
+	a = add . --all
+	cm = commit -m
+	ch = checkout
+	chb = checkout -b
+	
+  #publish
+	up = !git push origin -u $(git me)
+  #unpublish
+	down = !git push origin --delete $(git me)
+	
+	reb = rebase -s \"resolve\"
+	rebc = rebase --continue
+	reba = rebase --abort
+	
+	#resolve conflicts using tortoise git
+	rebf = !\"c:/Program Files/TortoiseGit/bin/TortoiseGitProc.exe\" /command:diff /path \"e:/source/projectname\"
+	fix = !\"c:/Program Files/TortoiseGit/bin/TortoiseGitProc.exe\" /command:diff /path \"e:/source/projectname\"
+	
+	chpull = "!f() \
+			{ \
+				git checkout \"$1\" && \
+				git pull; \
+			};f"
+			
+	chreb = "!f() \
+			{ \
+				git checkout \"$1\" && \
+				git rebase \"$2\"; \
+			};f"
+			
+	chpullchreb = "!f() \
+			{ \
+				echo && \
+				git checkout \"$1\" && \
+				git pull && \
+				echo && \
+				git checkout \"$2\" && \
+				git rebase \"$1\"; \
+			};f"
+			
+	# shorthand for chpullchreb. [fin]alize branch by rebasing to updated master
+	fin = "!f() \
+			{ \
+				echo && \
+				git checkout master && \
+				git pull && \
+				echo && \
+				git checkout \"$1\" && \
+				git rebase master; \
+			};f"
+	
+  # [fin]alize branch then publish
+	finup = "!f() \
+			{ \
+				echo && \
+				git checkout master && \
+				git pull && \
+				echo && \
+				git checkout \"$1\" && \
+				git rebase master && \
+				git push origin -u \"$1\"; \
+			};f"
+	
+  # execute to current branch
+	fin-me = !git fin $(git me)
+	
+	finup-me = !git finup $(git me)
+	
+	# list aliases
+    la = !git config -l | grep alias | cut -c 7-
