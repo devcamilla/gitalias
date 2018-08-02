@@ -28,6 +28,8 @@
 	rebc = rebase --continue
 	reba = rebase --abort
 	
+	fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+	
 	#resolve conflicts using tortoise git
 	rebf = !\"c:/Program Files/TortoiseGit/bin/TortoiseGitProc.exe\" /command:diff /path \"e:/source/projectname\"
 	fix = !\"c:/Program Files/TortoiseGit/bin/TortoiseGitProc.exe\" /command:diff /path \"e:/source/projectname\"
